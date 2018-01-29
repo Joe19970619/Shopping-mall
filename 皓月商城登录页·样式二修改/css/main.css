@@ -1,0 +1,8 @@
+.body-container{
+  position: absolute;
+/*  border: 1px solid red;*/
+  width: 300px;
+  left: 50%;
+  margin-left: -150px;
+  top:300px;
+}

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+        html{height: 100%}
+        body{margin: 0;height: 100%;
+            background: #fff;}
+        canvas{display: block;width: 100%;height: 100%;}
+        .body_content{
+            position: absolute;
+            top:30%;
+            left: 20%;
+            height: 20%;
+            background: palevioletred;
+            width: 20%;
+        }
+
+        #canvas{
+            position: absolute;
+            z-index:-1;
+        }
+
+
+        .body-container{
+            z-index: 2;
+        }
+        .logo-container{
+            position: absolute;
+            z-index: 1;
+            /*  border: 1px solid red;*/
+            width: 500px;
+            height: auto;
+            left: 50%;
+            margin-left: -250px;
+            top:50px;
+        }
+        .body-container{
+            position: absolute;
+            /*  border: 1px solid red;*/
+            width: 300px;
+            left: 50%;
+            margin-left: -150px;
+            top:250px;
+        }
+
+    </style>
+</head>
+<body>
+<!--背景部分-->
+<canvas id="canvas"></canvas>
+
+
+<!--logo部分-->
+<div class="logo-container">
+    <img src="./img/logo.png" style="width: 500px; height: auto">
+</div>
+
+
+<!--登录/注册部分-->
+
+<form method="post" action="" class="body-container">
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#sign" aria-controls="sign" role="tab" data-toggle="tab">注册</a></li>
+    </ul>
+
+    <br>
+    <div class="tab-content">
+        <div role="tab-pane" class="tab-pane fade in active" id="sign">
+            <div class="form-group">
+                <label for="username">用户名：</label>
+                <input type="text" id="username" class="form-control required" placeholder="输入用户名" style="width: 300px">
+            </div>
+            <div class="form-group">
+                <label for="password">密码：</label>
+                <input type="text" id="password" class="form-control  required" placeholder="请输入至少六位密码" style="width: 300px">
+            </div>
+            <div class="form-group">
+                <label for="re-password">确认密码：</label>
+                <input type="text" id="re-password" class="form-control required" placeholder="请确认密码" style="width: 300px">
+            </div>
+            <div class="form-group">
+                <input type="button" value="注册" class="btn btn-primary" id="send">
+                <input type="reset" value="重置" class="btn btn-danger" id="res">
+                <a id="changePage" href="./Login.html" style="display:none">点击这里本页跳转</a><!--曲线救国-->
+
+        </div>
+        </div>
+
+</form>
+
+
+
+
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/index.js"></script>
+
+<script>
+    $(function () {
+        //文本框失去焦点后
+        $('form :input').blur(function () {
+
+            //验证密码位数
+            var $parent = $(this).prev();
+            $parent.find(".formtips").remove();
+            if ($(this).is('#password')) {
+                if (this.value == "" || this.value.length < 6) {
+                    var errorMsg = ' *请输入至少6位密码.';
+                    $parent.append('<span class="formtips onError">' + errorMsg + '</span>');
+                }
+                else {
+                    var okMsg = ' *输入正确.';
+                    $parent.append('<span class="formtips onSuccess">' + okMsg + '</span>');
+                }
+            }
+
+            //验证两次密码是否一致
+            if ($(this).is('#re-password')) {
+
+                if (this.value == "" || $('#password').val() != $(this).val()) {
+                    var errorMsg = ' *两次输入密码不同.';
+                    $parent.append('<span class="formtips onError">' + errorMsg + '</span>');
+                }
+                else {
+                    var okMsg = ' *输入正确.';
+                    $parent.append('<span class="formtips onSuccess">' + okMsg + '</span>');
+                }
+
+            }
+
+            //验证用户名
+            if ($(this).is('#username')) {
+                if (this.value == "") {
+                    var errorMsg = ' *用户名不可为空.';
+                    $parent.append('<span class="formtips onError">' + errorMsg + '</span>');
+                }
+                else {
+                    var okMsg = ' *验证通过.';
+                    $parent.append('<span class="formtips onSuccess">' + okMsg + '</span>');
+                }
+            }
+        });
+
+
+        //提交，最终验证。
+        $('#send').click(function () {
+            $("form :input.required").trigger('blur');
+            var numError = $('form .onError').length;
+            if (numError) {
+                return false;
+            }
+            alert("注册成功,现在您可以登录了");
+            document.getElementById("changePage").click();
+        });
+
+        //重置
+        $('#res').click(function () {
+            $(".formtips").remove();
+        });
+    });
+</script>
+
+</body>
+</html>
